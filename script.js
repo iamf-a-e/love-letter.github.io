@@ -3,30 +3,44 @@ const noBtn = document.getElementById('noBtn');
 const row = document.getElementById('choiceRow');
 
 let dodges = 0;
-const maxScale = 2.1;
+const maxScale = 1.5;
+const edgeMargin = 16; // keep the button fully on-screen
+let freed = false;
+
+// Release the "Not yet" button from choiceRow's cramped 120px box so it can
+// roam the whole viewport instead of being squeezed right next to Yes.
+function freeNoButton() {
+  if (freed) return;
+  const rect = noBtn.getBoundingClientRect();
+  noBtn.style.position = 'fixed';
+  noBtn.style.left = `${rect.left}px`;
+  noBtn.style.top = `${rect.top}px`;
+  noBtn.style.margin = '0';
+  noBtn.style.transform = 'none';
+  freed = true;
+}
 
 function moveNoButton() {
-  const bounds = row.getBoundingClientRect();
+  freeNoButton();
+
   const btnW = noBtn.offsetWidth;
   const btnH = noBtn.offsetHeight;
 
-  const maxX = Math.max(bounds.width - btnW, 0) / 2;
-  const maxY = Math.max(bounds.height - btnH, 0) / 2;
+  const maxX = Math.max(window.innerWidth - btnW - edgeMargin * 2, 0);
+  const maxY = Math.max(window.innerHeight - btnH - edgeMargin * 2, 0);
 
-  const x = (Math.random() * 2 - 1) * maxX;
-  const y = (Math.random() * 2 - 1) * maxY;
+  const x = edgeMargin + Math.random() * maxX;
+  const y = edgeMargin + Math.random() * maxY;
 
-  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+  noBtn.style.left = `${x}px`;
+  noBtn.style.top = `${y}px`;
 }
 
 function growYesButton() {
   dodges = Math.min(dodges + 1, 6);
   const scale = 1 + (dodges / 6) * (maxScale - 1);
   yesBtn.style.transform = `scale(${scale})`;
-
-  const shrink = Math.max(1 - dodges * 0.12, 0.4);
-  noBtn.style.opacity = shrink;
-  noBtn.style.fontSize = `${15 * shrink}px`;
+  // Not yet no longer fades or shrinks — it stays fully visible every time.
 }
 
 noBtn.addEventListener('mouseenter', () => {
