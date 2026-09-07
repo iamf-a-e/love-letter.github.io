@@ -1,15 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Caveat:wght@500;700&display=swap');
 
 :root {
-  --blush: #F3E7EC;
-  --blush-deep: #E7D2DB;
-  --paper: #FFFBF5;
-  --rose: #D8A7B1;
-  --rose-deep: #C48793;
-  --gold: #BE9B57;
-  --ink: #34293F;
-  --ink-soft: #5C4F66;
-  --accent: #A8455F;
+  --blush: #EFE6D8;
+  --blush-deep: #E1D4BC;
+  --paper: #FBF6EA;
+  --parchment: #E8DCC3;
+  --parchment-deep: #D8C9A8;
+  --wax: #7E1A20;
+  --wax-light: #A5333A;
+  --wax-dark: #4A0E12;
+  --twine: #2A2724;
+  --ink: #211D1B;
+  --ink-soft: #57504A;
+  --accent: #7E1A20;
 
   --serif: 'Fraunces', Georgia, serif;
   --script: 'Caveat', cursive;
@@ -47,7 +50,7 @@ a { color: inherit; }
   height: 88px;
   margin: 0 auto 28px;
   border-radius: 50%;
-  border: 1.5px solid var(--gold);
+  border: 1.5px solid var(--wax);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -160,7 +163,7 @@ button {
 .env-body {
   position: absolute;
   inset: 0;
-  background: var(--rose);
+  background: var(--parchment);
   border-radius: 6px;
   box-shadow: 0 18px 40px rgba(52, 41, 63, 0.18);
   overflow: hidden;
@@ -209,22 +212,50 @@ button {
   margin: 0 auto;
   border-left: 140px solid transparent;
   border-right: 140px solid transparent;
-  border-top: 95px solid var(--rose-deep);
+  border-top: 95px solid var(--parchment-deep);
   transform-origin: top center;
   transition: transform 0.6s ease;
   z-index: 3;
 }
 
+.twine {
+  position: absolute;
+  top: 84px;
+  left: 50%;
+  width: 130px;
+  height: 40px;
+  transform: translate(-50%, 0);
+  z-index: 3;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.twine::before, .twine::after {
+  content: '';
+  position: absolute;
+  top: 18px;
+  width: 70px;
+  height: 2px;
+  background: var(--twine);
+  border-radius: 2px;
+}
+
+.twine::before { left: 2px; transform: rotate(-8deg); }
+.twine::after { right: 2px; transform: rotate(8deg); }
+
 .seal {
   position: absolute;
-  top: 62px;
+  top: 58px;
   left: 50%;
-  transform: translate(-50%, 0);
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #D4B06C, var(--gold) 70%);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+  transform: translate(-50%, 0) rotate(-3deg);
+  width: 58px;
+  height: 54px;
+  border-radius: 46% 54% 61% 39% / 45% 41% 59% 55%;
+  background: radial-gradient(circle at 33% 28%, var(--wax-light), var(--wax) 55%, var(--wax-dark) 100%);
+  box-shadow:
+    0 4px 10px rgba(0,0,0,0.35),
+    inset 0 -4px 7px rgba(0,0,0,0.3),
+    inset 0 3px 5px rgba(255,255,255,0.12);
   z-index: 4;
   display: flex;
   align-items: center;
@@ -232,10 +263,28 @@ button {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.seal::after {
-  content: '♡';
-  color: rgba(255,255,255,0.85);
-  font-size: 18px;
+.seal::before {
+  /* subtle drip at the base, presses the seal into the envelope */
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  width: 22px;
+  height: 10px;
+  background: var(--wax-dark);
+  border-radius: 0 0 10px 10px;
+  transform: translateX(-50%);
+  z-index: -1;
+  opacity: 0.7;
+}
+
+.seal-mark {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 24px;
+  color: rgba(0, 0, 0, 0.45);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2), 0 -1px 1px rgba(0, 0, 0, 0.35);
+  transform: translateY(-1px);
 }
 
 /* opened state */
@@ -246,7 +295,11 @@ button {
 
 .envelope.open .seal {
   opacity: 0;
-  transform: translate(-50%, -10px) scale(0.6);
+  transform: translate(-50%, -10px) rotate(-3deg) scale(0.6);
+}
+
+.envelope.open .twine {
+  opacity: 0;
 }
 
 .envelope.open .letter-paper {
