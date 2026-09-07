@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main class="desk">
+  <h2>One month down.</h2>
+  <p class="sub">There's a letter in here for you. Go on, open it.</p>
+
+  <div class="envelope-wrap">
+    <div class="envelope" id="envelope">
+      <div class="env-flap"></div>
+      <div class="seal"></div>
+      <div class="env-body">
+        <div class="letter-paper" id="letterPaper"><span>pull me out</span></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="tap-hint" id="tapHint">tap the envelope</p>
+</main>
+
+<div class="overlay" id="overlay">
+  <div class="full-letter">
+    <p>My love,</p>
+    <p>
+      One month in, and I already know the feeling of missing you when you're
+      only in the next room. That's new. That's you.
+    </p>
+    <p>
+      I'm not going to pretend I have some grand gesture ready. Just this:
+      thank you for the last thirty-odd days, and for every ordinary one
+      that made me like you more than the last.
+    </p>
+    <p>
+      Here's to the second month, and the ones after that.
+    </p>
+    <p class="signoff">— yours</p>
+    <button class="close-letter" id="closeLetter">fold it back up</button>
+  </div>
+</div>
+
+<script src="letter-script.js"></script>
+</body>
+</html>
