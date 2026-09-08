@@ -174,7 +174,7 @@ button {
 .env-body-back {
   position: absolute;
   inset: 0;
-  z-index: 0; /* rear wall of the pocket — always behind the letter */
+  z-index: 0; /* rear wall of the pocket â€” always behind the letter */
   background: var(--parchment-deep);
   border-radius: 6px;
   box-shadow: 0 18px 40px rgba(52, 41, 63, 0.18);
@@ -183,7 +183,7 @@ button {
 .env-body-front {
   position: absolute;
   inset: 0;
-  z-index: 2; /* front face — opaque everywhere except the flap-shaped notch */
+  z-index: 2; /* front face â€” opaque everywhere except the flap-shaped notch */
   background: var(--parchment);
   border-radius: 6px;
   /* cut a triangular notch matching the flap: full-width opening at the very
@@ -216,7 +216,7 @@ button {
   box-shadow: 0 6px 16px rgba(52, 41, 63, 0.12);
   transform: translate(-50%, 0);
   transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
-  z-index: 1; /* between the two panels — visible only through the front's notch */
+  z-index: 1; /* between the two panels â€” visible only through the front's notch */
   padding: 16px 14px 12px;
   display: flex;
   flex-direction: column;
@@ -377,18 +377,15 @@ button {
 
 /* opened state */
 .envelope.open .env-flap {
-  /* stays in its folded shape, now layered behind the letter instead of
-     rotating/fading away — reads as the flap folded open against the
-     envelope, with the letter poking up in front of it */
-  z-index: 0;
-}
-
-.envelope.open .env-body-front {
+  transform: rotateX(180deg);
+  opacity: 0; /* instant, not transitioned â€” avoids a flash of the flap still covering the letter */
+  transition: transform 0.6s ease, opacity 0s;
   z-index: 0;
 }
 
 .envelope.open .seal {
   opacity: 0;
+  transform: translate(-50%, -10px) rotate(-3deg) scale(0.6);
 }
 
 .envelope.open .twine {
