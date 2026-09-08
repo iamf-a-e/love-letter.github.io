@@ -50,8 +50,8 @@
     document.addEventListener('touchstart', startMusic);
     document.addEventListener('keydown', startMusic);
 
-    // Belt-and-suspenders: wire directly to the choice buttons, matching
-    // the actual events script.js uses to interact with them.
+    // Wire directly to the choice buttons, matching the actual events
+    // script.js uses to interact with them.
     var yesBtn = document.getElementById('yesBtn');
     var noBtn = document.getElementById('noBtn');
     if (yesBtn) yesBtn.addEventListener('click', startMusic);
@@ -60,14 +60,12 @@
       noBtn.addEventListener('touchstart', startMusic);
     }
 
-    // Expose so script.js can trigger it before navigating away.
+    // Expose so script.js can trigger it, and read the element directly,
+    // before navigating to letter.html. We deliberately do NOT rely on
+    // beforeunload here — it's unreliable on mobile Safari during normal
+    // navigations, so the state needs to be saved at click-time instead.
     window.startBgMusic = startMusic;
-
-    // Save playback position/state so letter.html can resume seamlessly.
-    window.addEventListener('beforeunload', function () {
-      sessionStorage.setItem('bgMusicTime', audio.currentTime);
-      sessionStorage.setItem('bgMusicPlaying', started ? '1' : '0');
-    });
+    window.bgAudio = audio;
   })();
 </script>
 </body>
