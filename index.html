@@ -25,23 +25,23 @@
   <p class="hint">(fair warning, "not yet" is a little shy)</p>
 </main>
 
-<!-- Background song: starts on the first tap/click/keypress anywhere on the page -->
 <audio id="bgMusic" src="Justin_Bieber-Everything_Hallelujah.mp3" loop preload="auto"></audio>
-  
 
 <script src="script.js"></script>
-
 <script>
   (function () {
     var audio = document.getElementById('bgMusic');
     var started = false;
 
+    var savedTime = sessionStorage.getItem('bgMusicTime');
+    if (savedTime) audio.currentTime = parseFloat(savedTime);
+
     function startMusic() {
       if (started) return;
       started = true;
       audio.volume = 0.6;
-      audio.play().catch(function () {
-        // If the browser still blocks it, try again on the next interaction.
+      audio.play().catch(function (err) {
+        console.error('Audio play failed:', err);
         started = false;
       });
       document.removeEventListener('click', startMusic);
@@ -52,12 +52,19 @@
     document.addEventListener('click', startMusic);
     document.addEventListener('touchstart', startMusic);
     document.addEventListener('keydown', startMusic);
-  })()
-    
+
+    // Belt-and-suspenders: fire directly on the choice buttons too,
+    // in case script.js stops the click from bubbling to document.
+    var yesBtn = document.getElementById('yesBtn');
+    var noBtn = document.getElementById('noBtn');
+    if (yesBtn) yesBtn.addEventListener('click', startMusic);
+    if (noBtn) noBtn.addEventListener('click', startMusic);
+
     window.addEventListener('beforeunload', function () {
-    sessionStorage.setItem('bgMusicTime', audio.currentTime);
-    sessionStorage.setItem('bgMusicPlaying', started ? '1' : '0');
-  });
-</script>  
+      sessionStorage.setItem('bgMusicTime', audio.currentTime);
+      sessionStorage.setItem('bgMusicPlaying', started ? '1' : '0');
+    });
+  })();
+</script>
 </body>
 </html>
