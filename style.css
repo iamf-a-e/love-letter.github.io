@@ -385,7 +385,6 @@ button {
 
 .envelope.open .seal {
   opacity: 0;
-  transform: translate(-50%, -10px) rotate(-3deg) scale(0.6);
 }
 
 .envelope.open .twine {
