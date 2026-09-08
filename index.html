@@ -52,7 +52,12 @@
     document.addEventListener('click', startMusic);
     document.addEventListener('touchstart', startMusic);
     document.addEventListener('keydown', startMusic);
-  })();
+  })()
+    
+    window.addEventListener('beforeunload', function () {
+    sessionStorage.setItem('bgMusicTime', audio.currentTime);
+    sessionStorage.setItem('bgMusicPlaying', started ? '1' : '0');
+  });
 </script>  
 </body>
 </html>
