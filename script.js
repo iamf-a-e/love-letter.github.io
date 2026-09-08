@@ -58,9 +58,23 @@ noBtn.addEventListener('touchstart', (e) => {
 
 yesBtn.addEventListener('click', () => {
   if (window.startBgMusic) window.startBgMusic();
-  // Tiny delay so audio.play() has a moment to actually begin
-  // before the page starts unloading for navigation.
-  setTimeout(() => {
-    window.location.href = 'letter.html';
-  }, 50);
+
+  // Save state synchronously, right here in the click handler — NOT in
+  // beforeunload, which mobile Safari frequently fails to fire during a
+  // normal navigation. This guarantees letter.html has something to
+  // resume from regardless of platform.
+  try {
+    if (window.bgAudio) {
+      sessionStorage.setItem('bgMusicTime', window.bgAudio.currentTime || 0);
+    }
+  } catch (e) {
+    // sessionStorage can throw in some locked-down/private-browsing modes;
+    // fail silently and just let letter.html start the song from 0.
+  }
+
+  // Navigate immediately — no artificial delay. Index's own audio gets
+  // torn down by the navigation regardless of timing, so there's nothing
+  // to gain by waiting, and a delay risks breaking the user-gesture chain
+  // that iOS Safari requires for the *next* page's play() call.
+  window.location.href = 'letter.html';
 });
