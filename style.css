@@ -383,6 +383,10 @@ button {
   z-index: 0;
 }
 
+.envelope.open .env-body-front {
+  z-index: 0;
+}
+
 .envelope.open .seal {
   opacity: 0;
 }
