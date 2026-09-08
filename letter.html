@@ -117,15 +117,15 @@
         to share.
       </p>
       <p>
-        Being miles apart isn’t always easy. There are moments when I wish I 
+        Being miles apart isn't always easy. There are moments when I wish I 
         could simply reach for your hand, hug you when I miss you, or sit 
         beside you without a screen between us. But somehow, even from a 
-        distance, you’ve made me feel close to you.
+        distance, you've made me feel close to you.
       </p>
       <p>
         Thank you for giving me something so special to look forward to every 
-        day. I’m grateful for every conversation, every laugh, every “I miss 
-        you,” and every memory we’ve already created. Happy 1st Monthiversary 
+        day. I'm grateful for every conversation, every laugh, every "I miss 
+        you," and every memory we've already created. Happy 1st Monthiversary 
         babe, the 1st of many. I love you so much and I'm happy you're mine❤️💯
       </p>
       <p class="signoff">— Fae</p>
@@ -203,22 +203,32 @@
   (function () {
     var audio = document.getElementById('bgMusic');
     var savedTime = sessionStorage.getItem('bgMusicTime');
-    var wasPlaying = sessionStorage.getItem('bgMusicPlaying') === '1';
     if (savedTime) audio.currentTime = parseFloat(savedTime);
+
     var started = false;
     function startMusic() {
       if (started) return;
       started = true;
       audio.volume = 0.6;
-      audio.play().catch(function () { started = false; });
+      audio.play().catch(function (err) {
+        console.error('Audio resume failed:', err);
+        started = false;
+      });
+      document.removeEventListener('click', startMusic);
+      document.removeEventListener('touchstart', startMusic);
+      document.removeEventListener('keydown', startMusic);
     }
-    if (wasPlaying) {
-      document.addEventListener('click', startMusic);
-      document.addEventListener('touchstart', startMusic);
-      document.addEventListener('keydown', startMusic);
-    }
+
+    // Always try to resume on the first interaction here — we no longer
+    // gate this behind a "wasPlaying" flag saved via beforeunload, since
+    // that event doesn't reliably fire on mobile Safari during a normal
+    // navigation. If bgMusicTime was saved, we resume from that position;
+    // if not (e.g. user landed here directly), it just starts from 0.
+    document.addEventListener('click', startMusic);
+    document.addEventListener('touchstart', startMusic);
+    document.addEventListener('keydown', startMusic);
   })();
-</script>  
+</script>
 
 <script src="letter-script.js"></script>
 </body>
