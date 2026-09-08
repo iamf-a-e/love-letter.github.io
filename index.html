@@ -25,6 +25,34 @@
   <p class="hint">(fair warning, "not yet" is a little shy)</p>
 </main>
 
+<!-- Background song: starts on the first tap/click/keypress anywhere on the page -->
+<audio id="bgMusic" src="Justin_Bieber_-_Everything_Hallelujah__Lyrics_.mp3" loop preload="auto"></audio>
+  
+
 <script src="script.js"></script>
+
+<script>
+  (function () {
+    var audio = document.getElementById('bgMusic');
+    var started = false;
+
+    function startMusic() {
+      if (started) return;
+      started = true;
+      audio.volume = 0.6;
+      audio.play().catch(function () {
+        // If the browser still blocks it, try again on the next interaction.
+        started = false;
+      });
+      document.removeEventListener('click', startMusic);
+      document.removeEventListener('touchstart', startMusic);
+      document.removeEventListener('keydown', startMusic);
+    }
+
+    document.addEventListener('click', startMusic);
+    document.addEventListener('touchstart', startMusic);
+    document.addEventListener('keydown', startMusic);
+  })();
+</script>  
 </body>
 </html>
