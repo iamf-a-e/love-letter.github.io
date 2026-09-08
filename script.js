@@ -22,16 +22,12 @@ function freeNoButton() {
 
 function moveNoButton() {
   freeNoButton();
-
   const btnW = noBtn.offsetWidth;
   const btnH = noBtn.offsetHeight;
-
   const maxX = Math.max(window.innerWidth - btnW - edgeMargin * 2, 0);
   const maxY = Math.max(window.innerHeight - btnH - edgeMargin * 2, 0);
-
   const x = edgeMargin + Math.random() * maxX;
   const y = edgeMargin + Math.random() * maxY;
-
   noBtn.style.left = `${x}px`;
   noBtn.style.top = `${y}px`;
 }
@@ -61,5 +57,10 @@ noBtn.addEventListener('touchstart', (e) => {
 }, { passive: false });
 
 yesBtn.addEventListener('click', () => {
-  window.location.href = 'letter.html';
+  if (window.startBgMusic) window.startBgMusic();
+  // Tiny delay so audio.play() has a moment to actually begin
+  // before the page starts unloading for navigation.
+  setTimeout(() => {
+    window.location.href = 'letter.html';
+  }, 50);
 });
