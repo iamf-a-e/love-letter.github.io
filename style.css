@@ -318,7 +318,7 @@ button {
   margin: 0 auto;
   border-left: 140px solid transparent;
   border-right: 140px solid transparent;
-  border-bottom: 50px solid var(--parchment-deep);
+  border-bottom: 95px solid var(--parchment-deep);
   filter: drop-shadow(0 4px 6px rgba(52, 41, 63, 0.18));
   z-index: 0;
   opacity: 0;
