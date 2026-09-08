@@ -178,20 +178,6 @@ button {
   background: var(--parchment-deep);
   border-radius: 6px;
   box-shadow: 0 18px 40px rgba(52, 41, 63, 0.18);
-  overflow: hidden;
-}
-
-.env-body-back::before {
-  /* bottom triangle fold, drawn with borders — lives on the back wall so it
-     stays visible once the front panel fades away on open */
-  content: '';
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  width: 0; height: 0;
-  margin: 0 auto;
-  border-left: 140px solid transparent;
-  border-right: 140px solid transparent;
-  border-bottom: 95px solid rgba(0,0,0,0.06);
 }
 
 .env-body-front {
@@ -204,7 +190,18 @@ button {
      top, tapering to a point at the flap's fold apex (50% height) */
   clip-path: polygon(0% 0%, 50% 50%, 100% 0%, 100% 100%, 0% 100%);
   pointer-events: none;
-  transition: opacity 0.2s ease;
+}
+
+.env-body-front::before {
+  /* bottom triangle fold, drawn with borders */
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  width: 0; height: 0;
+  margin: 0 auto;
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  border-bottom: 95px solid rgba(0,0,0,0.06);
 }
 
 .letter-paper {
@@ -380,14 +377,10 @@ button {
 
 /* opened state */
 .envelope.open .env-flap {
-  transform: rotateX(58deg) translateY(-3px);
-  transition: transform 0.6s ease;
-  z-index: 0; /* drops behind the letter, but stays visible around its edges */
-}
-
-.envelope.open .env-body-front {
-  opacity: 0;
-  transition: opacity 0.2s ease;
+  transform: rotateX(180deg);
+  opacity: 0; /* instant, not transitioned — avoids a flash of the flap still covering the letter */
+  transition: transform 0.6s ease, opacity 0s;
+  z-index: 0;
 }
 
 .envelope.open .seal {
