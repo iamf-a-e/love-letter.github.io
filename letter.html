@@ -198,6 +198,28 @@
   </div>
 </div>
 
+<audio id="bgMusic" src="Justin_Bieber_-_Everything_Hallelujah__Lyrics_.mp3" loop preload="auto"></audio>
+<script>
+  (function () {
+    var audio = document.getElementById('bgMusic');
+    var savedTime = sessionStorage.getItem('bgMusicTime');
+    var wasPlaying = sessionStorage.getItem('bgMusicPlaying') === '1';
+    if (savedTime) audio.currentTime = parseFloat(savedTime);
+    var started = false;
+    function startMusic() {
+      if (started) return;
+      started = true;
+      audio.volume = 0.6;
+      audio.play().catch(function () { started = false; });
+    }
+    if (wasPlaying) {
+      document.addEventListener('click', startMusic);
+      document.addEventListener('touchstart', startMusic);
+      document.addEventListener('keydown', startMusic);
+    }
+  })();
+</script>  
+
 <script src="letter-script.js"></script>
 </body>
 </html>
