@@ -13,6 +13,8 @@
   --ink: #211D1B;
   --ink-soft: #57504A;
   --accent: #7E1A20;
+  --leaf: #7C8B5B;
+  --gold: #C79A45;
 
   --serif: 'Fraunces', Georgia, serif;
   --script: 'Caveat', cursive;
@@ -172,6 +174,7 @@ button {
 .env-body {
   position: absolute;
   inset: 0;
+  z-index: 1; /* opaque — hides the letter-paper until it slides above this box */
   background: var(--parchment);
   border-radius: 6px;
   box-shadow: 0 18px 40px rgba(52, 41, 63, 0.18);
@@ -201,18 +204,58 @@ button {
   box-shadow: 0 6px 16px rgba(52, 41, 63, 0.12);
   transform: translate(-50%, 0);
   transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
-  z-index: 1;
-  padding: 18px 16px;
+  z-index: 0; /* sits behind the opaque env-body until it slides up past it */
+  padding: 16px 14px 12px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
 }
 
-.letter-paper span {
+.letter-paper-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+.letter-kicker {
   font-family: var(--script);
-  font-size: 15px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-bottom: 2px;
+}
+
+.letter-title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+.letter-paper-foot {
+  align-self: flex-end;
+}
+
+.letter-from {
+  font-family: var(--sans);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--ink-soft);
 }
+
+.corner-flora {
+  position: absolute;
+  bottom: -4px;
+  width: 46%;
+  height: auto;
+  pointer-events: none;
+}
+
+.corner-flora--left { left: -6px; }
+.corner-flora--right { right: -6px; left: auto; transform: scaleX(-1); }
 
 .env-flap {
   position: absolute;
@@ -312,10 +355,8 @@ button {
 }
 
 .envelope.open .letter-paper {
-  transform: translate(-50%, -46px);
+  transform: translate(-50%, -56px);
 }
-
-.envelope.open .letter-paper span { opacity: 0; }
 
 .tap-hint {
   margin-top: 24px;
