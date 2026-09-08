@@ -313,7 +313,7 @@ button {
 .env-flap-back {
   position: absolute;
   left: 0; right: 0;
-  top: -60px;
+  top: -95px;
   height: 0;
   margin: 0 auto;
   border-left: 140px solid transparent;
