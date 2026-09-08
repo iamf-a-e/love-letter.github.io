@@ -377,9 +377,9 @@ button {
 
 /* opened state */
 .envelope.open .env-flap {
-  transform: rotateX(180deg);
-  opacity: 0; /* instant, not transitioned — avoids a flash of the flap still covering the letter */
-  transition: transform 0.6s ease, opacity 0s;
+  /* stays in its folded shape, now layered behind the letter instead of
+     rotating/fading away — reads as the flap folded open against the
+     envelope, with the letter poking up in front of it */
   z-index: 0;
 }
 
