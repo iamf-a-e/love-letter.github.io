@@ -7,21 +7,17 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<main class="stage"> 
+<main class="stage">
   <div class="badge">
     <strong>1st</strong>
     <span>month</span>
   </div>
-
   <h1>It's been a whole month of us.</h1>
   <p class="sub">Small as a month sounds, this is to show I'll always celebrate every milestone nomatter how small. Do you want to see the love letter I wrote you 🥹?</p>
-
   <div class="choice-row" id="choiceRow">
     <button class="yes-btn" id="yesBtn">Yes, show me</button>
     <button class="no-btn" id="noBtn">Not yet</button>
   </div>
-
   <p class="hint">(fair warning, "not yet" is a little shy)</p>
 </main>
 
@@ -49,17 +45,25 @@
       document.removeEventListener('keydown', startMusic);
     }
 
+    // Generic fallback: any click/tap/keypress anywhere on the page
     document.addEventListener('click', startMusic);
     document.addEventListener('touchstart', startMusic);
     document.addEventListener('keydown', startMusic);
 
-    // Belt-and-suspenders: fire directly on the choice buttons too,
-    // in case script.js stops the click from bubbling to document.
+    // Belt-and-suspenders: wire directly to the choice buttons, matching
+    // the actual events script.js uses to interact with them.
     var yesBtn = document.getElementById('yesBtn');
     var noBtn = document.getElementById('noBtn');
     if (yesBtn) yesBtn.addEventListener('click', startMusic);
-    if (noBtn) noBtn.addEventListener('click', startMusic);
+    if (noBtn) {
+      noBtn.addEventListener('mouseenter', startMusic);
+      noBtn.addEventListener('touchstart', startMusic);
+    }
 
+    // Expose so script.js can trigger it before navigating away.
+    window.startBgMusic = startMusic;
+
+    // Save playback position/state so letter.html can resume seamlessly.
     window.addEventListener('beforeunload', function () {
       sessionStorage.setItem('bgMusicTime', audio.currentTime);
       sessionStorage.setItem('bgMusicPlaying', started ? '1' : '0');
